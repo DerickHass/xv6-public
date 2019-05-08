@@ -88,7 +88,6 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
-
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -311,6 +310,18 @@ wait(void)
   }
 }
 
+unsigned long randstate = 1;
+
+unsigned int
+rand()
+{
+	randstate = randstate * 1664525 + 1013904223;
+	return randstate;
+}
+
+
+
+
 //PAGEBREAK: 42
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
@@ -325,16 +336,41 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
+  int totaltickets = 1000
   
   for(;;){
     // Enable interrupts on this processor.
     sti();
+	int allproc = 0;
+	acquire(&ptable.lock);
 
+	//Loop over proceses to count all runnable processes 
+	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+		if (p->state != RUNNABLE)
+			continue;
+		allproc+=1;
+	}
+
+	for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+		if (p->state != RUNNABLE)
+			continue;
+		p->tickets = totaltickets/allproc;
+	}
+
+	int winner = rand() % totaltickets;
+	long counter = 0;
+	
     // Loop over process table looking for process to run.
-    acquire(&ptable.lock);
+    
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
+
+	  counter += p->tickets;
+
+	  if (counter < winner) {
+		  continue;
+	  }
 
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
