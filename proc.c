@@ -336,7 +336,7 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
-  int totaltickets = 1000
+  int totaltickets = 1000;
   
   for(;;){
     // Enable interrupts on this processor.
