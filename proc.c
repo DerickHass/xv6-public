@@ -511,6 +511,20 @@ getprocs(void)
 	return count;
 }
 
+int
+getpmem(void)
+{
+	uint sol;
+	struct proc *p;
+	acquire(&ptable.lock);
+	sol=p->pgdir
+	if (sol == 0)
+		release(&ptable.lock);
+		return -1;
+	release(&ptable.lock);
+	return (V2P(sol));
+}
+
 
 //PAGEBREAK: 36
 // Print a process listing to console.  For debugging.
