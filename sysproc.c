@@ -52,7 +52,7 @@ sys_getprocs(void)
 int
 sys_getpmem(void)
 {
-	return getpmem():
+	return getpmem();
 }
 
 int
