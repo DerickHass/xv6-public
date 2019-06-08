@@ -514,15 +514,13 @@ getprocs(void)
 int
 getpmem(void)
 {
-	uint sol;
 	struct proc *p;
 	acquire(&ptable.lock);
-	sol = p->pgdir;
-	if (sol == 0)
+	if (p->pgdir == 0)
 		release(&ptable.lock);
 		return -1;
 	release(&ptable.lock);
-	return (V2P(sol));
+	return (V2P(p->pgdir));
 }
 
 
