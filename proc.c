@@ -517,7 +517,7 @@ getpmem(void)
 	uint sol;
 	struct proc *p;
 	acquire(&ptable.lock);
-	sol=p->pgdir
+	sol = p->pgdir;
 	if (sol == 0)
 		release(&ptable.lock);
 		return -1;
