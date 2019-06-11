@@ -519,8 +519,9 @@ getpmem(void)
 	if (proce->pgdir == 0)
 		release(&ptable.lock);
 		return -1;
+	uint sol = V2P(proce->pgdir)
 	release(&ptable.lock);
-	return (V2P(proce->pgdir));
+	return (sol);
 }
 
 
