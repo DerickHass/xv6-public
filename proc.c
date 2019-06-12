@@ -514,8 +514,8 @@ getprocs(void)
 int
 getpmem(void)
 {
-	struct proc *proce = myproc();
 	acquire(&ptable.lock);
+	struct proc *proce = myproc();
 	if (proce->pgdir == 0)
 		release(&ptable.lock);
 		return -1;
