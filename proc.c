@@ -1,4 +1,4 @@
-#include "types.h"
+ #include "types.h"
 #include "defs.h"
 #include "param.h"
 #include "memlayout.h"
@@ -342,7 +342,10 @@ scheduler(void)
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
-
+	  float Timer = timerinit();
+	  if (Timer >= 5) {
+		  continue;
+	  }
       swtch(&(c->scheduler), p->context);
       switchkvm();
 
